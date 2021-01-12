@@ -1,0 +1,47 @@
+package com.akshay;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.PriorityQueue;
+
+/**
+ * Created by 1596272 on 9/17/2020.
+ */
+public class MergeKSortedArrays {
+    @Test
+    public void merge() {
+        int[][] input = {{1, 5, 9}, {3, 6, 7}, {2, 4, 8}};
+        int[] result = new int[9];
+        PriorityQueue<Node> pq = new PriorityQueue<>(input.length, (a, b) -> a.value - b.value);
+        for (int i=0;i< input.length ; i++){
+            pq.add(new Node(i,input[i][0],0));
+        }
+
+        int i = 0;
+        while(!pq.isEmpty()){
+            Node node = pq.poll();
+            result[i] = node.value;
+            if(node.index  < input[node.array].length-1){
+                pq.add(new Node(node.array,input[node.array][node.index+1],node.index+1));
+            }
+            i++;
+        }
+
+        Assert.assertEquals("", Arrays.toString(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9}), Arrays.toString(result));
+    }
+
+    private class Node {
+        int array;
+        int value;
+        int index;
+
+        public Node(int array, int value, int index) {
+            this.array = array;
+            this.value = value;
+            this.index = index;
+        }
+    }
+}
